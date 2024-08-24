@@ -1,0 +1,50 @@
+@{
+    ViewData["Title"] = "Inicio";
+}
+@model List<MVC_CRUD.Models.Employee>;
+
+<div class="row mt-5">
+    <div class="col-sm-8 offset-sm-2">
+        <h2 class="text-center">Lista de empleados</h2>
+        <a asp-controller="Employee" asp-action="AddEmployee" class="btn btn-success mb-3">Nuevo</a>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre completo</th>
+                    <th>Correo</th>
+                    <th>Fecha contrato</th>
+                    <th>Activo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var employee in Model)
+                {
+                    <tr>
+                        <td>@employee.Id</td>
+                        <td>@employee.Name</td>
+                        <td>@employee.Email</td>
+                        <td>@employee.ContractDate.ToString("dd/MM/yyyy")</td>
+                        <td>@(employee.Active ? "SI" : "NO")</td>
+                        <td>
+                            <a asp-controller="Employee" asp-action="UpdateEmployee" asp-route-id="@employee.Id"
+                                class="btn btn-primary">Editar</a>
+
+                            <a asp-controller="Employee" asp-action="DeleteEmployee" asp-route-id="@employee.Id"
+                                class="btn btn-danger" onclick="return confirmDelete()">Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function confirmDelete() {
+            return confirm("Esta seguro de eliminar el empleado?")
+        }
+    </script>
+}
